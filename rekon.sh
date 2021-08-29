@@ -83,23 +83,24 @@ cd ../../
 
 # amass
 echo -e "\n$YELLOW[!]$END Running amass...."
+
 amass enum -silent -src -ip -d $domain -rf 25resolvers.txt -max-dns-queries 25000 -dir $domain/dns/amass
-amass viz -d3 -d $domain
+amass viz -d3 -d $domain -dir $domain/dns/amass
+
 echo -e "\n$GREEN[+]$END Done!"
 
 echo -e "\n$YELLOW[!]$END Digging DNS info...."
 
 ## dig
-dig $domain ANY > $domain/dns/dig.txt 
-whois $domain > $domain/dns/whois.txt
+dig $domain ANY 1> $domain/dns/dig.txt 2>/dev/null
+whois $domain 1> $domain/dns/whois.txt 2>/dev/null
 
 echo -e "\n$GREEN[+]$END Done!"
 
 echo -e "\n$YELLOW[!]$END Fetching subdomains...."
 
 ## certspotter
-curl --silent -H "Authorization: Bearer $cerspotter_api" "https://api.certspotter.com/v1/issuances?domain=$domain&expand=dns_names&expand=issuer&expand=cert&include_subdomains=true" |jq -r '.[] | .dns_names |.[]' |sort -u >> $domain/dns/temp.txt
-
+curl --silent -H "Authorization: Bearer $certspotter_api" "https://api.certspotter.com/v1/issuances?domain=$domain&expand=dns_names&expand=issuer&expand=cert&include_subdomains=true" |jq -r '.[] | .dns_names |.[]' |sort -u >> $domain/dns/temp.txt
 ## crt.sh
 curl --silent "https://crt.sh/?q=$domain" |grep -Eo "([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+" |sort -u >> $domain/dns/temp.txt
 
