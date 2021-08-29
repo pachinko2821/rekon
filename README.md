@@ -6,6 +6,7 @@
 
 * dig (for dns info)
 * certspotter, crt.sh, subfinder, assetfinder (for getting subdomains)
+* amass for subdomains and d3 graph
 * alive domains - httprobe
 * screenshot - gowitness
 * subdomain takeover - subjack
@@ -13,10 +14,18 @@
 * fetch params - paramfinder, separate with gf
 * find links/api endpoints in js files - linkfinder
 * pastebins
+* Reads API Tokens from rekon.config
 
 ## I would like to implement:
 
-* Read API Tokens from config.json
-* nmap, shodan, breach-parse, amass
+* nmap, shodan, breach-parse
 * Some more dns tools, maybe automate testing for zone transfers
 * Maybe some CMS scanners like wpscan or droopescan in case a CMS is detected
+
+## Config file:
+
+* You can add API Tokens in the config file like so:
+```
+certspotter_api="YOUR_API_TOKEN"
+```
+* As of now, the script only supports certspotter api, there are plans to add shodan
