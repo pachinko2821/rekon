@@ -68,6 +68,7 @@ while test $# -gt 0; do
 	esac
 done
 
+source rekon.config
 # DNS info
 print_banner
 
@@ -76,7 +77,15 @@ echo -e "\n$GREEN[+]$END Target: $domain"
 mkdir $domain
 cd $domain
 mkdir dns
-cd ../
+cd dns
+mkdir amass
+cd ../../
+
+# amass
+echo -e "\n$YELLOW[!]$END Running amass...."
+amass enum -silent -src -ip -d $domain -rf 25resolvers.txt -max-dns-queries 25000 -dir $domain/dns/amass
+amass viz -d3 -d $domain
+echo -e "\n$GREEN[+]$END Done!"
 
 echo -e "\n$YELLOW[!]$END Digging DNS info...."
 
@@ -89,7 +98,7 @@ echo -e "\n$GREEN[+]$END Done!"
 echo -e "\n$YELLOW[!]$END Fetching subdomains...."
 
 ## certspotter
-curl --silent -H "Authorization: Bearer xxxxxx" "https://api.certspotter.com/v1/issuances?domain=$domain&expand=dns_names&expand=issuer&expand=cert&include_subdomains=true" |jq -r '.[] | .dns_names |.[]' |sort -u >> $domain/dns/temp.txt
+curl --silent -H "Authorization: Bearer $cerspotter_api" "https://api.certspotter.com/v1/issuances?domain=$domain&expand=dns_names&expand=issuer&expand=cert&include_subdomains=true" |jq -r '.[] | .dns_names |.[]' |sort -u >> $domain/dns/temp.txt
 
 ## crt.sh
 curl --silent "https://crt.sh/?q=$domain" |grep -Eo "([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+" |sort -u >> $domain/dns/temp.txt
@@ -113,7 +122,13 @@ cd $domain
 mkdir web
 cd web
 mkdir screenshots
+mkdir params
 cd ../../
+
+## subjack
+echo -e "\n$YELLOW[!]$END Checking for subdomain takeover...."
+subjack -c ~/go/src/github.com/haccer/subjack/fingerprints.json -w $domain/dns/alive.txt -t 100 -timeout 30 -o $domain/web/sudomain-takeover.txt -ssl
+echo -e "\n$GREEN[+]$END Done!"
 
 echo -e "\n$YELLOW[!]$END Taking screenshots of alive subdomains...."
 ## gowitness
@@ -149,7 +164,7 @@ cat $domain/web/params/spider.txt |gf ssti >> $domain/web/params/ssti.txt
 cat $domain/web/params/spider.txt |gf xss >> $domain/web/params/xss.txt
 
 # identify api endpoints in js files
-for url in $(cat $domain/dns/alive.txt); do /opt/LinkFinder/linkfinder.py -d $url -o $domain/web/linkfinder.html &>/dev/null
+for url in $(cat $domain/dns/alive.txt); do /opt/LinkFinder/linkfinder.py -d $url -o $domain/web/linkfinder.html &>/dev/null; done
 
 # check pastebins
 /opt/degoogle_hunter/degoogle_hunter.sh $domain > $domain/osint.txt
