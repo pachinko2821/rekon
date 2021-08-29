@@ -27,5 +27,10 @@
 * You can add API Tokens in the config file like so:
 ```
 certspotter_api="YOUR_API_TOKEN"
+shodan_api="YOUR_API_TOKEN"
 ```
 * As of now, the script only supports certspotter api, there are plans to add shodan
+
+## 25resolvers.txt
+
+* Run dnsvalidator and generate a list of public dns resolvers, randomly pick 25 of them. Works well with amass
