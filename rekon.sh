@@ -140,7 +140,6 @@ cat $domain/web/params/spider.txt |gf img-traversal >> $domain/web/params/img-tr
 cat $domain/web/params/spider.txt |gf interestingEXT >> $domain/web/params/extensions.txt
 cat $domain/web/params/spider.txt |gf interestingparams >> $domain/web/params/params.txt
 cat $domain/web/params/spider.txt |gf interestingsubs >> $domain/web/params/subs.txt
-cat $domain/web/params/spider.txt |gf jsvar >> $domain/web/params/jsvariables.txt
 cat $domain/web/params/spider.txt |gf lfi >> $domain/web/params/lfi.txt
 cat $domain/web/params/spider.txt |gf rce >> $domain/web/params/rce.txt
 cat $domain/web/params/spider.txt |gf redirect >> $domain/web/params/redirects.txt
@@ -151,3 +150,6 @@ cat $domain/web/params/spider.txt |gf xss >> $domain/web/params/xss.txt
 
 # identify api endpoints in js files
 for url in $(cat $domain/dns/alive.txt); do /opt/LinkFinder/linkfinder.py -d $url -o $domain/web/linkfinder.html &>/dev/null
+
+# check pastebins
+/opt/degoogle_hunter/degoogle_hunter.sh $domain > $domain/osint.txt
