@@ -5,15 +5,15 @@
 ## Right now the script includes:
 
 * dig (for dns info)
-* certspotter, crt.sh, subfinder, assetfinder (for getting subdomains)
-* amass for subdomains and d3 graph
-* alive domains - httprobe
-* screenshot - gowitness
-* subdomain takeover - subjack
-* crawl - hakrawler
-* fetch params - paramfinder, separate with gf
-* find links/api endpoints in js files - linkfinder
-* pastebins
+* [certspotter](https://github.com/SSLMate/certspotter), [crt.sh](https://crt.sh/), [subfinder](https://github.com/projectdiscovery/subfinder), [assetfinder](https://github.com/tomnomnom/assetfinder) (for discovering subdomains)
+* [amass](https://github.com/OWASP/Amass) for subdomains and d3 graph
+* alive domains - [httprobe](https://github.com/tomnomnom/httprobe)
+* screenshot - [gowitness](https://github.com/sensepost/gowitness)
+* subdomain takeover - [subjack](https://github.com/haccer/subjack)
+* crawl - [hakrawler](https://github.com/hakluke/hakrawler)
+* fetch params - [paramspider](https://github.com/devanshbatham/ParamSpider), separate with [gf](https://github.com/tomnomnom/gf) and [gf-patterns](https://github.com/1ndianl33t/Gf-Patterns)
+* find links/api endpoints in js files - [linkfinder](https://github.com/GerbenJavado/LinkFinder)
+* pastebins - [degoogle_hunter](https://github.com/six2dez/degoogle_hunter)
 * Reads API Tokens from rekon.config
 
 ## I would like to implement:
