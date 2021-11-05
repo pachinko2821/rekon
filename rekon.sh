@@ -143,7 +143,7 @@ echo -e "\n$GREEN[+]$END Done!"
 
 echo -e "\n$YELLOW[!]$END Mining Params"
 # paramspider
-/opt/ParamSpider/paramspider.py -q -d $domain -o $domain/web/params/spider.txt &>/dev/null
+./dependencies/ParamSpider/paramspider.py -q -d $domain -o $domain/web/params/spider.txt &>/dev/null
 echo -e "\n$GREEN[+]$END Done!"
 
 cat $domain/web/params/temp.txt >> $domain/web/params/spider.txt
@@ -165,7 +165,7 @@ cat $domain/web/params/spider.txt |gf ssti >> $domain/web/params/ssti.txt
 cat $domain/web/params/spider.txt |gf xss >> $domain/web/params/xss.txt
 
 # identify api endpoints in js files
-for url in $(cat $domain/dns/alive.txt); do /opt/LinkFinder/linkfinder.py -d $url -o $domain/web/linkfinder.html &>/dev/null; done
+for url in $(cat $domain/dns/alive.txt); do ./dependencies/LinkFinder/linkfinder.py -d $url -o $domain/web/linkfinder.html &>/dev/null; done
 
 # check pastebins
-/opt/degoogle_hunter/degoogle_hunter.sh $domain > $domain/osint.txt
+./dependencies/degoogle_hunter/degoogle_hunter.sh $domain > $domain/osint.txt
