@@ -21,6 +21,7 @@
 * nmap, shodan, breach-parse
 * Some more dns tools, maybe automate testing for zone transfers
 * Maybe some CMS scanners like wpscan or droopescan in case a CMS is detected
+* Add installer script
 
 ## Config file:
 
