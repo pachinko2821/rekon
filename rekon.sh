@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# dig
-# certspotter, crt.sh, subfinder, assetfinder
-# alive domains - httprobe
-# screenshot - aquatone/gowitness
-# subdomain takeover - subjack
-# crawl - hakrawler
-# fetch params - paramfinder, separate with gf
-# find links/api endpoints in js files - linkfinder
-
-# nmap, shodan, check pastebins, breach-parse
-
 function print_banner {
 	echo '4paI4paI4paI4paI4paI4paI4pWX4paR4paI4paI4paI4paI4paI4paI4paI4pWX4paI4paI4pWX
 4paR4paR4paI4paI4pWX4paR4paI4paI4paI4paI4paI4pWX4paR4paI4paI4paI4pWX4paR4paR
@@ -72,7 +61,7 @@ source rekon.config
 # DNS info
 print_banner
 
-echo -e "\n$GREEN[+]$END Target: $domain"
+echo -e "\n$RED[+]$END Target: $domain"
 
 mkdir $domain
 cd $domain
