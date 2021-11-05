@@ -39,7 +39,7 @@
 
 ## Config file:
 
-* You can add API Tokens in the config file like so:
+* You can add API Tokens in a rekon.config file like so:
 ```
 certspotter_api="YOUR_API_TOKEN"
 shodan_api="YOUR_API_TOKEN"
