@@ -63,12 +63,7 @@ print_banner
 
 echo -e "\n$RED[+]$END Target: $domain"
 
-mkdir $domain
-cd $domain
-mkdir dns
-cd dns
-mkdir amass
-cd ../../
+mkdir -p $domain/dns/amass
 
 # amass
 echo -e "\n$YELLOW[!]$END Running amass...."
@@ -108,12 +103,9 @@ cat $domain/dns/subdomains.txt |httprobe >> $domain/dns/alive.txt
 echo -e "\n$GREEN[+]$END Done!"
 # WEB info 
 
-cd $domain
-mkdir web
-cd web
-mkdir screenshots
-mkdir params
-cd ../../
+
+mkdir -p $domain/web/screenshots
+mkdir -p $domain/web/params
 
 ## subjack
 echo -e "\n$YELLOW[!]$END Checking for subdomain takeover...."
@@ -154,7 +146,27 @@ cat $domain/web/params/spider.txt |gf ssti >> $domain/web/params/ssti.txt
 cat $domain/web/params/spider.txt |gf xss >> $domain/web/params/xss.txt
 
 # identify api endpoints in js files
-for url in $(cat $domain/dns/alive.txt); do ./dependencies/LinkFinder/linkfinder.py -d $url -o $domain/web/linkfinder.html &>/dev/null; done
+echo -e "\n$YELLOW[!]$END Identifying endpoints in js files..."
+for url in $(cat $domain/dns/alive.txt); do ./dependencies/LinkFinder/linkfinder.py -d $url -o $domain/web/$url-linkfinder.html &>/dev/null; done
+echo -e "\n$GREEN[+]$END Done!"
 
 # check pastebins
+echo -e "\n$YELLOW[!]$END Checking pastebins..."
 ./dependencies/degoogle_hunter/degoogle_hunter.sh $domain > $domain/osint.txt
+echo -e "\n$GREEN[+]$END Done!"
+
+# get ips of all found subdomains, sorted uniquely, then scan with nmap and shodan
+mkdir -p $domain/nmap
+mkdir -p $domain/shodan
+
+for i in $(cat $domain/dns/alive.txt); do echo $i:$(ping -c 1 $i |grep -Eom 1 "([0-9]{0,3}\.){3}[0-9]{0,3}") >> $domain/dns/ip-sub.txt
+cat $domain/dns/ip-sub.txt |cut -d":" -f2 |sort -u > $domain/dns/ip.txt
+
+# I am aware of the -iL flag in nmap, but that has always given me bad results. So just run Nmap on all IP's separately. Will take time, but reliable
+echo -e "\n$YELLOW[!]$END Running Nmap..."
+for ip in $(cat $domain/dns/ip.txt); do nmap --min-rate 1000 -T4 -sC -sV -oA $domain/nmap/$ip $ip >/dev/null; done
+echo -e "\n$GREEN[+]$END Done!"
+
+echo -e "\n$YELLOW[!]$END Running Shodan..."
+for ip in $(cat $domain/dns/ip.txt); do shodan host $ip >$domain/shodan/$ip; done
+echo -e "\n$GREEN[+]$END Done!"
