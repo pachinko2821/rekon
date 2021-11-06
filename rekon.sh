@@ -159,12 +159,12 @@ echo -e "\n$GREEN[+]$END Done!"
 mkdir -p $domain/nmap
 mkdir -p $domain/shodan
 
-for i in $(cat $domain/dns/alive.txt); do echo $i:$(ping -c 1 $i |grep -Eom 1 "([0-9]{0,3}\.){3}[0-9]{0,3}") >> $domain/dns/ip-sub.txt
+for i in $(cat $domain/dns/alive.txt|cut -d"/" -f3); do echo $i:$(ping -c 1 $i |grep -Eom 1 "([0-9]{0,3}\.){3}[0-9]{0,3}") >> $domain/dns/ip-sub.txt; done
 cat $domain/dns/ip-sub.txt |cut -d":" -f2 |sort -u > $domain/dns/ip.txt
 
 # I am aware of the -iL flag in nmap, but that has always given me bad results. So just run Nmap on all IP's separately. Will take time, but reliable
 echo -e "\n$YELLOW[!]$END Running Nmap..."
-for ip in $(cat $domain/dns/ip.txt); do nmap --min-rate 1000 -T4 -sC -sV -oA $domain/nmap/$ip $ip >/dev/null; done
+for ip in $(cat $domain/dns/ip.txt); do sudo nmap --min-rate 1000 -T4 -sC -sV -oA $domain/nmap/$ip $ip >/dev/null; done
 echo -e "\n$GREEN[+]$END Done!"
 
 echo -e "\n$YELLOW[!]$END Running Shodan..."
