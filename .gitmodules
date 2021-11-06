@@ -1,9 +1,9 @@
-[submodule "dependencies/degoogle_hunter"]
-	path = dependencies/degoogle_hunter
-	url = https://github.com/six2dez/degoogle_hunter
-[submodule "dependencies/Paramspider"]
-	path = dependencies/Paramspider
-	url = https://github.com/devanshbatham/ParamSpider
 [submodule "dependencies/LinkFinder"]
 	path = dependencies/LinkFinder
 	url = https://github.com/GerbenJavado/LinkFinder
+[submodule "dependencies/Paramspider"]
+	path = dependencies/Paramspider
+	url = https://github.com/devanshbatham/ParamSpider
+[submodule "dependencies/degoogle_hunter"]
+	path = dependencies/degoogle_hunter
+	url = https://github.com/six2dez/degoogle_hunter
