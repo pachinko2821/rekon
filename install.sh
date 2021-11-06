@@ -24,14 +24,19 @@ else
 	echo -e "$GREEN[+]$END go version" $g "found!"
 fi
 
-# mkdir dependencies
+mkdir dependencies
+cd dependencies
 
-# echo -e "$GREEN[+]$END Installing dependency Linkfinder"
-# git submodule add https://github.com/GerbenJavado/LinkFinder dependencies/LinkFinder
-# echo -e "$GREEN[+]$END Installing dependency ParamSpider"
-# git submodule add https://github.com/devanshbatham/ParamSpider dependencies/Paramspider
-# echo -e "$GREEN[+]$END Installing dependency Degoogle_Hunter"
-# git submodule add https://github.com/six2dez/degoogle_hunter dependencies/degoogle_hunter
+echo -e "$GREEN[+]$END Installing dependency Linkfinder"
+git clone https://github.com/GerbenJavado/LinkFinder 
+
+echo -e "$GREEN[+]$END Installing dependency ParamSpider"
+git clone https://github.com/devanshbatham/ParamSpider
+
+echo -e "$GREEN[+]$END Installing dependency Degoogle_Hunter"
+git clone https://github.com/six2dez/degoogle_hunter
+
+cd ../
 
 echo -e "$GREEN[+]$END Installing dependency subfinder"
 go install github.com/projectdiscovery/subfinder@latest
